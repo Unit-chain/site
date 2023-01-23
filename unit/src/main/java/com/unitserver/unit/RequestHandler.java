@@ -3,6 +3,7 @@ package com.unitserver.unit;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import reactor.core.publisher.Mono;
 
@@ -12,6 +13,7 @@ import java.io.InputStreamReader;
 
 @Component
 @RestController
+@RequestMapping("/api/")
 public class RequestHandler {
    @Value("${app.bip44.executable.path}")
    private String path;
