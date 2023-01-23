@@ -39,7 +39,7 @@ public class RequestHandler {
         }
     }
 
-    @GetMapping("/getWallet")
+    @GetMapping(value="/getWallet", produces="application/json")
     public Mono<String> walletInfo() {
         String wallet = this.getWallet();
         if (wallet == null)
