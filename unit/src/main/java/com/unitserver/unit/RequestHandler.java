@@ -1,34 +1,34 @@
 package com.unitserver.unit;
 
+import com.unitserver.unit.requestModels.Request;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Mono;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import javax.validation.Valid;
+import java.io.*;
+import java.util.HashMap;
+import java.util.Objects;
+import java.util.Scanner;
 
 @Component
 @RestController
 @RequestMapping("/api/")
+@CrossOrigin(value = "*", origins = "*", maxAge = 3600)
 public class RequestHandler {
    @Value("${app.bip44.executable.path}")
    private String path;
 
-    private String getWallet() {
+    private String getWallet(String password) {
         synchronized (RequestHandler.class) {
             try {
-                Runtime rt = Runtime.getRuntime();
-                Process ps = rt.exec(path);
-                BufferedReader reader = new BufferedReader(
-                        new InputStreamReader(ps.getInputStream()));
+                Process ps = new ProcessBuilder(this.path, password).start();
+                BufferedReader reader = new BufferedReader(new InputStreamReader(ps.getInputStream()));
                 StringBuilder stringBuilder = new StringBuilder();
                 String line;
                 while ((line = reader.readLine()) != null) {
-                    stringBuilder.append(line).append("\n");
+                    stringBuilder.append(line);
                 }
                 reader.close();
                 return stringBuilder.toString();
@@ -39,12 +39,9 @@ public class RequestHandler {
         }
     }
 
-    @GetMapping(value="/getWallet", produces="application/json")
-    public Mono<String> walletInfo() {
-        String wallet = this.getWallet();
-        if (wallet == null)
-            return Mono.just("something went wrong");
-        else
-            return Mono.just(this.getWallet());
+    @PostMapping(value="/createWallet", produces="application/json")
+    public Mono<String> walletInfo(@Valid @RequestBody Request request) {
+        String wallet = this.getWallet(request.password);
+        return Mono.just(Objects.requireNonNullElse(wallet, "false"));
     }
 }

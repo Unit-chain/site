@@ -4,23 +4,24 @@
 
 using namespace std;
 
-int main() {
+int main(int argc, char *argv[]) {
+    std::string password = argv[1];
     BIP44 bip44;
-    BIP44Result r = bip44.generateWallet(PHRASE_24, 0, EXTERNAL_CHANGE);
-    cout << "WALLET PATH: " << r.path << endl;
-    cout << "WALLET PHRASE: " << r.mnemonic.phrase << endl;
-    cout << "WALLET SEED: " << r.mnemonic.seed << endl;
-    cout << "WALLET PRV: " << r.prv << endl;
-    cout << "WALLET PUB: " << r.pub << endl;
-    cout << "WALLET E_PRV: " << r.extended_prv << endl;
-    cout << "WALLET E_PUB: " << r.extended_pub << endl;
-    cout << "WALLET ADDRESS: " << r.address << endl;
+    BIP44Result r = bip44.generateWallet(PHRASE_24, 0, EXTERNAL_CHANGE, password);
+    cout << R"({"WALLET_PATH": ")" << r.path << R"(",)" << endl;
+    cout << R"("WALLET_PHRASE": ")" << r.mnemonic.phrase << R"(",)" << endl;
+    cout << R"("WALLET_SEED": ")" << r.mnemonic.seed << R"(",)" << endl;
+    cout << R"("WALLET_PRV": ")" << r.prv << R"(",)" << endl;
+    cout << R"("WALLET_PUB": ")" << r.pub << R"(",)" << endl;
+    cout << R"("WALLET_E_PRV": ")" << r.extended_prv << R"(",)" << endl;
+    cout << R"("WALLET_E_PUB": ")" << r.extended_pub << R"(",)" << endl;
+    cout << R"("WALLET_ADDRESS": ")" << r.address << R"(",)" << endl;
 
-    cout << "\nSigning message 'Hello!': \n";
+    cout << R"("Signing_message_Hello": {)" << endl;
     ECDSASignResult sig = ecdsa_sign_message("Hello!", r.prv);
-    std::cout << "r: " << sig.r << std::endl;
-    std::cout << "s: " << sig.s << std::endl;
+    std::cout << R"("r":")" << sig.r << R"(",)" << std::endl;
+    std::cout << R"("s":")" << sig.s << "\"" << std::endl << R"(},)"<< std::endl;
     bool verified = ecdsa_verify_signature(sig.r, sig.s, "Hello!", r.address);
-    cout << "Result of verification: "<<verified<<"\n";
+    cout << R"("Result of verification": )"<<verified<<"\n}";
     return 0;
 }
