@@ -1,0 +1,6 @@
+/Users/kirillzhukov/CLionProjects/bip44_executable/cmake-build-debug/CMakeFiles/bip44_executable.dir
+/Users/kirillzhukov/CLionProjects/bip44_executable/cmake-build-debug/CMakeFiles/edit_cache.dir
+/Users/kirillzhukov/CLionProjects/bip44_executable/cmake-build-debug/CMakeFiles/rebuild_cache.dir
+/Users/kirillzhukov/CLionProjects/bip44_executable/cmake-build-debug/bip44/CMakeFiles/bip44.dir
+/Users/kirillzhukov/CLionProjects/bip44_executable/cmake-build-debug/bip44/CMakeFiles/edit_cache.dir
+/Users/kirillzhukov/CLionProjects/bip44_executable/cmake-build-debug/bip44/CMakeFiles/rebuild_cache.dir
